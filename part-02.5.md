@@ -1,6 +1,6 @@
 # Programming for Wannabes. Part II and a Half
 
-If you had read [Part II](part-02.md4) of this series you may have missed a couple of details. Consider this post as a short addendum to Part II including those details. 
+If you had read [Part II](part-02.md) of this series you may have missed a couple of details. Consider this post as a short addendum to Part II including those details. 
 
 
 The first you may have noted is that there was no ARM or MIPS code in there. Actually, the paper was already quite long and, to be honest, I thought it should be straightforward to repeat what we did for the x86 with any of those processors. However, I tried myself for the Lulz and I found some glitches that may be useful to mention.
