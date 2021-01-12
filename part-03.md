@@ -167,7 +167,7 @@ The way to do this on Linux is to write to the **standard output** (the console)
 
 So, knowing that the `write` system call is known by Linux as 1 (on a x86_64 arch), and applying everything we have already learn, this is how our little program will look like:
 
-```
+```nasm
 	global _start
 _start: mov rax, 1    ; SYS_write = 1
 	mov rdi, 1    ; fd = 1
@@ -199,7 +199,7 @@ So, in this little program, where is our pointer?. We said that a pointer is a m
 # A C version
 Let's now try to write the C version for this program. It would look like this:
 
-```
+```C
 #include <unistd.h>
 
 int main ()
@@ -246,7 +246,7 @@ I guess you have already figure out how to declare a pointer in C. Sure, you hav
 
 A C pointer is, therefore, declared this way:
 
-```
+```C
 type *pointer;
 ```
 
@@ -264,7 +264,7 @@ C also supports compound types, but we will not talk about those right now.
 
 Confused again?. This is a simple program to figure out the size of each type in your system and better understand the difference between all those types:
 
-```
+```C
 #include <stdio.h>
 int main ()
 {
@@ -293,7 +293,7 @@ So, believe it or no, you have already learn all the bits and pieces to write a 
 
 In Linux, you can execute a process using the `exec` system call. This system call has 3 parameters, but for your first shellcode you can set to 0 the last two. The only parameter we need is the first one... a pointer to the name of the program to run.... that in this case would be `/bin/sh'.
 
-```
+```nasm
 section .text
         global _start
 
@@ -321,7 +321,7 @@ Therefore, as a convention, all Unix system have a binary at `/bin/sh` that runs
 # ARM Shell code
 So, we should be able to port our x86_64 asm shell code to ARM very easily. In case you are feeling lazy, this is how it may look like.
 
-```
+```nasm
 .text
 .globl _start
 

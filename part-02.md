@@ -13,7 +13,7 @@ Finally, you need to know that we are going to use `nasm` in this course. This i
 # Our First Assembly Program
 So, let's start with the simplest, Linux OS-compliant program we can write. There you go:
 
-```
+```nasm
 	global _start
 _start:	mov rdi, 10
 	mov rbx, 20
@@ -74,7 +74,8 @@ System calls are identified by a number, and the number for the `exit` syscall i
 Yes, system calls are executed by the kernel (the OS), so what we basically do, is to put some values in some registers and then give control to the OS. The way to do that is platform-dependent. The `syscall` we used above is the standard way to invoke a system call on a x86 64bits. For 32 bits you usually invoke the software interruption 0x80 (`int 0x80`).
 
 Let's reproduce the last lines of our program here again:
-```
+
+```nasm
 	add rdi,rbx
 	mov rax, 0x3c
 	syscall
@@ -84,7 +85,7 @@ We can clearly identify how we set `rax` with the value `0x3c` (the `exit` syste
 
 Well, for the `exit` system call, the `rdi` register have to be set with the value we want our program to return. That is why we have done the addition directly on the `rdi` register, so we do not have to explicitly set it before calling our system calls. Reordering the source code:
 
-```
+```nasm
 mov rax, 0x3c
 add rdi, rbx          ====>  exit (a+b)
 syscall           
@@ -99,7 +100,7 @@ Now, we completely understand our assembly code, and we also know how to produce
 
 In order to understand this, we are going to move into C and try to reproduce our assembly program. The same program in C would look like this:
 
-```
+```C
 #include <unistd.h>
 
 int main (void)
@@ -121,7 +122,7 @@ Let's now go line by line for the less experienced readers. Advanced readers can
 ## First Line
 The first line found in the program is:
 
-```
+```C
 #include <unistd.h>
 ```
 
@@ -142,7 +143,7 @@ Well, that was not a great idea. This file has a lot more pre-processor directiv
 
 Actually, for our simple C program we just need one line (in fact we not even need that, but let's be legal); the prototype of the `_exit` function. If you look for it in the output of the pre-processor you will find something like this:
 
-```
+```C
 extern void _exit (int __status) __attribute__ ((__noreturn__));
 ```
 
@@ -155,7 +156,7 @@ The second one is the one we used in this example. Whenever you are not interest
 
 However, you usually want to access command-line parameters provided by the user. In those cases, the `main` function is declared as:
 
-```
+```C
 int main (int argc, char &argv[])
 ```
 
@@ -181,7 +182,7 @@ What happens is that the linker (do you remember that guy) is adding a default v
 
 Let's rename our `main` function to `_start`. Our program will look like this:
 
-```
+```C
 #include <unistd.h>
 
 void _start (void)
@@ -220,7 +221,7 @@ If you had paid attention, I said before that we need the standard C library to 
 
 So, let's create a new file named `exit.s` and let's declare the `_exit` symbol in there together with our ASM code to call the `exit` syscall:
 
-```
+```C
     .global _exit
 _exit:
     mov $0x3c, %eax

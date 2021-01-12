@@ -16,7 +16,7 @@ So, the system call number goes into `r7`... yes, there is a reason, but it does
 
 With all this information and, taking into consideration that system calls follows the same numbering that the Intel 32bits, we can write our exit function like this:
 
-```
+```nasm
 .text
 .globl _exit
 
@@ -29,7 +29,7 @@ As it happened with the Intel processor, the kernel follows the default processo
 
 I will reproduce the C code again, in here for your convenience:
 
-```
+```C
 #include <unistd.h>
 
 int _start (void)
@@ -87,7 +87,7 @@ In my case I found the syscall number, disassembling one of my test programs. Th
 
 If I told you that parameters, as stated in the table above, goes into `$aX`, then you should be able to write your exit function... something like this:
 
-```
+```nasm
 .globl _exit
 .text
 	

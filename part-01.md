@@ -139,7 +139,7 @@ Remembering those number is hard for humans. Sure, we can manage for the SCTW-20
 # Our first program
 To illustrate all this, let's write a simple program that adds two numbers: `10` and `20`. The assembly code for the SCTW-2000 and for such a stupid program will be:
 
-```
+```nasm
 MOV EBX, 10
 MOV EBP, 20
 ADD EBX, EBP
@@ -177,7 +177,7 @@ For doing that, we are going to try to produce exactly the same code we have gen
 
 Let's write this program in a text file. Call it `ph1.c`
 
-```
+```C
 int f1 (void)
 {
   register  int a = 10;
