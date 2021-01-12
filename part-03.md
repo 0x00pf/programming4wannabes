@@ -15,7 +15,7 @@ However, beyond being the type of Linux distribution you choose to install, this
 
 Overall, and without going into the electronics within the processor, what you need to know is that each processor is optimised to work with its native word size. This way, a 32bits processor will perform arithmetic operations or access memory faster when it deals with a 32bits long value that when it deals with a 16bits long value. I know, this is a bit contra-intuitive and a bit of an act of faith but it will be very long and tedious to go through the details to understand this. Actually I'm not sure I could successfully guide you through that path.
 
-To further illustrate this, below is a fragment of the ""Intel's  80396 Programmers's Reference Manual"" from 1986 (http://microsym.com/editor/assets/386intel.pdf). You can find it in section 2.2 ""Data Types"" page 24.
+To further illustrate this, below is a fragment of the "Intel's  80396 Programmers's Reference Manual" from 1986 (http://microsym.com/editor/assets/386intel.pdf). You can find it in section 2.2 "Data Types" page 24.
 
 
 > Note that words need not be aligned at even-numbered addresses and
@@ -159,9 +159,9 @@ Let's see this with an example. Imagine the following memory layout:
 The example above show a 32bits pointer at address (0x400000) pointing to address 0x400004 on a 32bits little endian machine. A memory address storing a memory address.
 
 # Hello World
-_""Fine, all that stuff is really confusing. Give me an example to understand what you are talking about...""_ Sure, there you go, the _Hello World_ program.
+_"Fine, all that stuff is really confusing. Give me an example to understand what you are talking about..."_ Sure, there you go, the _Hello World_ program.
 
-I'm pretty sure you know the ""Hello World"" program, but in case you don't, this is a very simple program that shows the message ""Hello World"" in the console. 
+I'm pretty sure you know the "Hello World" program, but in case you don't, this is a very simple program that shows the message "Hello World" in the console. 
 
 The way to do this on Linux is to write to the **standard output** (the console). The standard output is known by the system as the file descriptor `1` for any process... We will go in detail on file descriptors later in the course, for now, you just need to know that if you pass `1` as first parameter to the system call `write` you will be writing to the console.
 
@@ -186,7 +186,7 @@ msg:	db 'Hello World!',0x0a
 I hope you can identify the two system calls in there. The first one to write the message, and the second one to exit the program with status 0.  If you do not know how to compile the program, you need to go back and check Part I of this course.
 
 # Labels and Assembler commands
-There are two new elements in our tiny program. The first one is a label. A label is a name we can use to reference a part of our program (actually a memory position). In this case, the label `msg` is used to reference some data in memory, our ""Hello World"" message. In general, we do not know where in memory our program will be loaded, so using symbolic names let us write our programs without caring about that. Even if we use offsets to reference memory positions independently of our actual location in memory, labels will let us ask the compiler to calculate those offsets for us.
+There are two new elements in our tiny program. The first one is a label. A label is a name we can use to reference a part of our program (actually a memory position). In this case, the label `msg` is used to reference some data in memory, our "Hello World" message. In general, we do not know where in memory our program will be loaded, so using symbolic names let us write our programs without caring about that. Even if we use offsets to reference memory positions independently of our actual location in memory, labels will let us ask the compiler to calculate those offsets for us.
 
 Actually, we've already seen this in the past.... can you spot the label we have been using so far? ... Anybody `_start`?
 
@@ -204,7 +204,7 @@ Let's now try to write the C version for this program. It would look like this:
 
 int main ()
 {
-        register void *p = ""Hello World!\n"";
+        register void *p = "Hello World!\n";
         write (1, p, 13);
         _exit (0);
 }
@@ -237,7 +237,7 @@ Sure, you see how do we copy `rbx` into `rsi` after setting `ebx` (the 32bits pa
 
     $ gdb ./hello
     (gdb) x/s 0x40065c
-    0x40065c:	 ""Hello World!\n""
+    0x40065c:	 "Hello World!\n"
 
 _Note: You have to run all commands above. You may get different addresses in your system_
 
@@ -268,12 +268,12 @@ Confused again?. This is a simple program to figure out the size of each type in
 #include <stdio.h>
 int main ()
 {
-	printf (""Size of void*  : %ld\n"", sizeof(void*));
-	printf (""Size of short  : %ld\n"", sizeof(short));
-	printf (""Size of int    : %ld\n"", sizeof(int));
-	printf (""Size of long   : %ld\n"", sizeof(long));
-	printf (""Size of float  : %ld\n"", sizeof(float));
-	printf (""Size of double : %ld\n"", sizeof(double));
+	printf ("Size of void*  : %ld\n", sizeof(void*));
+	printf ("Size of short  : %ld\n", sizeof(short));
+	printf ("Size of int    : %ld\n", sizeof(int));
+	printf ("Size of long   : %ld\n", sizeof(long));
+	printf ("Size of float  : %ld\n", sizeof(float));
+	printf ("Size of double : %ld\n", sizeof(double));
 	return 0;
 }
 ```
@@ -334,7 +334,7 @@ _start:	mov r7, #11
 
 .data
 msg:
-	.asciz ""/system/bin/sh""
+	.asciz "/system/bin/sh"
 ```
 
 have you seen it?... sure, this code is for Android. Android had mesh up the standard Linux disk tree, and the default shell is no longer at `/bin/sh` but at `/system/bin/sh`. If you are going to test the code in another ARM platform as a BeagleBone Black, a BananaPi or an Olinuxino running a standard Linux distro (usually Debian), just change the string to the well-known location `/bin/sh`. The rest of the code should just work.
@@ -357,7 +357,7 @@ OK guys. My MIPS setup is so crappy that it is a pain to keep including it in th
 
 
 # Conclusions
-In this part we have had our first encounter with pointers at the lowest level and we have learn how to use them together with a system call. Using these two simple concepts we manage to create a shell code. This shell code is not usable in the wild, but you will learn how to update it for practical purposes later in this course. If you cannot wait, check the @unh0lys0da   article here https://0x00sec.org/t/linux-shellcoding-part-1-0/289 or the read classical ""Smashing the Stack for Fun and Profit"" from Aleph one!
+In this part we have had our first encounter with pointers at the lowest level and we have learn how to use them together with a system call. Using these two simple concepts we manage to create a shell code. This shell code is not usable in the wild, but you will learn how to update it for practical purposes later in this course. If you cannot wait, check the @unh0lys0da   article here https://0x00sec.org/t/linux-shellcoding-part-1-0/289 or the read classical "Smashing the Stack for Fun and Profit" from Aleph one!
 
 * PREVIOUS: [Programming for Wannabes. Part II and a half. Systemcalls (ARM and MIPS)](part-02.5.md)
 * NEXT: [Programming for Wannabes. Part IV. The Stack](part-04.md)

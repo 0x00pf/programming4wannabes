@@ -148,7 +148,7 @@ HALT
 
 Now let's do the work of the assembler by hand using the opcode/mnemonic table above:
 
-```
+```nasm
 ASM             MACHINE CODE
 MOV EBX, 10  -> 0xbb 0x0a
 MOV EBP, 20  -> 0xbd 0x14

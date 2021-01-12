@@ -221,7 +221,7 @@ If you had paid attention, I said before that we need the standard C library to 
 
 So, let's create a new file named `exit.s` and let's declare the `_exit` symbol in there together with our ASM code to call the `exit` syscall:
 
-```C
+```nasm
     .global _exit
 _exit:
     mov $0x3c, %eax

