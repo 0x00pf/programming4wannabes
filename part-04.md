@@ -821,3 +821,8 @@ The canaries are managed slightly differently, but overall we can see how the va
 This is it for this part. This time we had learn how functions are implemented and the role the stack play on software. Also we had also found out why buffer overflows are dangerous and how canaries can be used to detect those overflows and prevent the exploitation of those bugs.
 
 Finally we took a look to how all this looks for ARM and MIPS just to find that.... they work roughly the same way :)
+
+
+
+* PREVIOUS: [Programming for Wannabes. Part III. Your first Shell Code](part-03.md)
+* NEXT: [Programming for Wannabes. Part V. A Dropper](part-05.md)

@@ -301,3 +301,6 @@ For MIPS you won't find a toolchain in your distro repository, so you have to ge
 https://www.linux-mips.org/wiki/Toolchains
 
 Just uncompress the toolchain anywhere and set your `PATH` to the directory containing all the binaries... That's it
+
+
+* NEXT: [Programming for Wannabes. Part II. Systemcalls](part-02.md)

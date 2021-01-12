@@ -137,3 +137,6 @@ Well, this is it for ARM and MIPS... at least for me and for now :slight_smile:
 We have done a short journey from the C realm to the kernel border and we have found quite a lot of stuff in between. It is interesting to understand all this... it changes a bit the way you see the programs running in your computer. We use to think that a C program is pretty low level and it is very fast and optimized. We have seen a bit of what it goes into a C program... now, just think about what is in there when using a scripting language... _So many CPU cycles_....
 
 In next part we will come back to general programming... maybe...
+
+* PREVIOUS: [Programming for Wannabes. Part II. Systemcalls](part-02.md)
+* NEXT: [Programming for Wannabes. Part III. Your first Shell Code](part-03.md)

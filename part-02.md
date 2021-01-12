@@ -320,3 +320,5 @@ Finally, we have learn about the main parts of a C program which are automatical
 In this trip, we have seen how to strip down a C program to reduce it to its minimal expression... really close to what we can achieve writing our code directly in ASM... and how we lost, in the process, the portability of our code.
 
 
+* PREVIOUS: [Programming for Wannabes. Part I. Your first Program](part-01.md)
+* NEXT: [Programming for Wannabes. Part II and a half. Systemcalls (ARM and MIPS)](part-02.5.md)

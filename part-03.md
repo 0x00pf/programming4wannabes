@@ -358,3 +358,7 @@ OK guys. My MIPS setup is so crappy that it is a pain to keep including it in th
 
 # Conclusions
 In this part we have had our first encounter with pointers at the lowest level and we have learn how to use them together with a system call. Using these two simple concepts we manage to create a shell code. This shell code is not usable in the wild, but you will learn how to update it for practical purposes later in this course. If you cannot wait, check the @unh0lys0da   article here https://0x00sec.org/t/linux-shellcoding-part-1-0/289 or the read classical ""Smashing the Stack for Fun and Profit"" from Aleph one!
+
+* PREVIOUS: [Programming for Wannabes. Part II and a half. Systemcalls (ARM and MIPS)](part-02.5.md)
+* NEXT: [Programming for Wannabes. Part IV. The Stack](part-04.md)
+

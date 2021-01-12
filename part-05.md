@@ -917,3 +917,7 @@ In this part we have worked on the concept we already know and applied it to the
 Most of what we have seen in this part is pretty similar to stuff you may find in the real world. Take a look to [this post](https://0x00sec.org/t/iot-malware-droppers-mirai-and-hajime/1966) specially to the paper linked at the end about Hajime.
 
 Did you made the dropper smaller?. Have you used other ideas to shrinking it?. Let us know. Any comment, question and feedback is welcomed! :)
+
+* PREVIOUS: [Programming for Wannabes. Part IV. The Stack](part-04.md)
+* NEXT : ??
+
