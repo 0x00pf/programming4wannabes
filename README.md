@@ -27,3 +27,34 @@ This repo contains the _Programming for Wannabes_ series originally published in
 * [Programming for Wannabes. Part V. A Dropper](part-05.md)
 
   Writing a dropper (TCP client). Optimize for size. Dropping the dropper hijacking existing raw shell TCP connection (using `ptrace`)
+
+* [ Programming for Wannabes Part VI. Malware Introduction](part-06.md)
+
+  General introduction to malware. We start writting a generic skeleton to code any kind of malware
+
+* [ Programming for Wannabes Part VII. Finding Files I](part-07.md)
+
+   How to navigate directories to search for specific files
+
+* [ Programming for Wannabes Part VIII. Files Details](part-08.md)
+
+  Using stat to get information about files and navigate recursively directories trees
+
+* [ Programming for Wannabes Part IX. Files Files in asm](part-09.md)
+
+  Recoding part VII but this time in assembler
+
+* [ Programming for Wannabes Part X. File Details in asm](part-10.md)
+
+  Recoding part VIII but this time in assembler
+
+* [ Programming for Wannabes Part XI. Introduction to RATs](part-11.md)
+
+  Let's get started coding Remeote Access Trojans. How to disguess RATs on sight
+
+
+* [ Programming for Wannabes Part XII. Persistence](part-12.md)
+
+  Adding persistence to our RAT
+
+

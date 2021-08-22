@@ -164,7 +164,8 @@ You can change `argc` and `argv` for whatever identifiers you want. However thos
 
 The first argument `argc` is an integer that indicates the number of command-line parameters the user has provided when launching the application. The `argv` is an array of strings. One string for each space separated parameter provided by the user (unless you quote the parameters). Again, we will talk about this later. Right now, we just need to now that `main` is the function that gets first executed and it can be declared in, at least, two different ways...
 
-## The _exit() Function Call
+## The `_exit()` Function Call
+
 The body of the function should be clear by now, so it is only the last line that needs some explanation. The last line is a function call... you will recognize that by the parenthesis. In this case, the `_exit` function is a wrapper around the `exit` system call, provided by the standard C library. Here we see clearly how the standard C library lays on top of the operating system interface, and gives us a simpler interface to access the functions provided by the OS.
 
 To my knowledge, there is no standard way to directly access system calls from a C program without using the standard C library. Apparently the old `_syscall` function is deprecated and it is, anyway, a function from the standard C library.
