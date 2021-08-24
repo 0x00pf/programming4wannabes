@@ -268,17 +268,3 @@ The code above is pretty simple and you should be able to code the assembler ver
 In this instalment we have gone quickly through the main features of a RAT and after that we have defined a simple one to use as example in the comming instalments. It has very few features so we can keep it simple while we learn more about our system. So far we have learn how to manipulate the way the process is shown for system tools like `ps` and `top`... and at the same time, accidentaly :), we have learn how to convert any program in a `daemon`. So far, `rat0x0` just looks like a regular system daemon... nothing really special about it. That is the key of a good RAT... just look normal.
 
 
-
-
-* Core functionality
-- Remote access -> execution of any application
-- File transfer
-- Hiding
-- C&C comms
-- Enumeration -> Information extraction (system information querying)
-- Privilege scalation -> Exploits
-- Modules
-  * Sniffer
-  * Network Scanning pivoting
-  * Credential extraction
-  * Extract metadata from documents (mails, videos,...)
