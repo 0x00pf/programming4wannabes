@@ -57,4 +57,6 @@ This repo contains the _Programming for Wannabes_ series originally published in
 
   Adding persistence to our RAT
 
+* [ Programming for Wannabes Part XIII. Crypters Part I](part-13.md)
 
+ Everything about crypters. Part I, RC4 algorithm and introduction to ELF format
