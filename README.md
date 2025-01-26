@@ -1,3 +1,4 @@
+**Note that this repository has been archived. Thanks for your interest**
 # Programming course for Wannabes
 This repo contains the _Programming for Wannabes_ series originally published in 0x00sec.org. I'm just putting this all together to be able to see everything at once.
 
