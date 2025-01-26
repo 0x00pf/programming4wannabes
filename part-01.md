@@ -1,44 +1,44 @@
 # Programming for Wannabes. Part I. Your first Program
 
-If you are reading this is because you want to be a hacker. Therefore, you are automatically a [wannabe](http://www.catb.org/jargon/html/W/wannabee.html). It does not sound that cool, but it is actually pretty cool. It means that you still have a lot of exciting things to discover!!!
+If you are reading this, it is because you want to be a hacker. Therefore, you are automatically a [wannabe](http://www.catb.org/jargon/html/W/wannabee.html). It does not sound that cool, but it is actually pretty cool. It means that you still have a lot of exciting things to discover!!!
 
-First things first. This is going to be a joint course on C and assembly programming. Those are the only two languages a real hacker has to know. Yes. Really. The only two languages that will let you do the real hacking. You can do some stuff with Python or PowerShell... but that is Skid stuff.. You know what the S on skid stands for... don't you?. It stands for Script :stuck_out_tongue_winking_eye:
+First things first. This is going to be a joint course on C and assembly programming. Those are the only two languages a real hacker has to know. Yes. Really. The only two languages that will let you do the real hacking. You can do some stuff with Python or PowerShell... but that is Skid stuff. You know what the S in skid stands for, don't you? It stands for Script :stuck_out_tongue_winking_eye:
 
-Easy, this was just a joke to catch your attention. Now seriously. Learning scripting languages is a powerful tool and will save you a lot of time in many cases. Mastering Python is indeed a great skill and it is something you should invest time on. Analogously, C and assembly are the only way forward for some topics: reverse engineering, kernel level rootkits, and some system level programming can only be done with those low level languages. So, if you really want to be a hacker... man, there is no way around, you gotta have to learn CASM (C + ASM :).
+Easy, this was just a joke to catch your attention. Now seriously, learning scripting languages is a powerful tool and will save you a lot of time in many cases. Mastering Python is indeed a great skill, and it is something you should invest time in. Analogously, C and assembly are the only way forward for some topics: reverse engineering, kernel level rootkits, and some system level programming can only be done with those low-level languages. So, if you really want to be a hacker... man, there is no way around, you've got to learn CASM (C + ASM :).
 
 Two notes before we start:
 
-- I'm not a hacker myself. Not even a wannabe. Really I do not have any interest on becoming a hacker. This basically means that you should take this course as a starting point. When you get done with it... then... your journey will really start.
+- I'm not a hacker myself. Not even a wannabe. Really, I do not have any interest in becoming a hacker. This basically means that you should take this course as a starting point. When you get done with it... then... your journey will really start.
 - No. HTML is not a programming language. If you think that... you really need to go through this course. :stuck_out_tongue_closed_eyes:
 
 The course will be organized as follows:
 
-- Some introduction to what a computer is. These are low level languages and you need to get to know low level stuff
+- Some introduction to what a computer is. These are low-level languages, and you need to get to know low-level stuff
 - That is it for now :P
 
-# How have you end up here?
-That is a good question. In all honestly there are zillions of C/ASM programming tutorials and courses out there. I know, they look useless. They are not what you are looking for. That's fine... and that is why you are reading this right now.
+# How have you ended up here?
+That is a good question. In all honesty, there are zillions of C/ASM programming tutorials and courses out there. I know, they look useless. They are not what you are looking for. That's fine... and that is why you are reading this right now.
 
-To understand why all those tutorials haven't help you, we need to learn a little bit about the different layers beneath the tools we want to build... Yes, layers. There are lots of them.
+To understand why all those tutorials haven't helped you, we need to learn a little bit about the different layers beneath the tools we want to build... Yes, layers. There are lots of them.
 
-So, let's start this trip bottom-up. At the very low level you have what is usually know as the _Bare Metal_. That is roughly the computer processor and the memory. We may consider the BIOS to be also at this level and some other elements usually grouped under the generic name of chipset.
+So, let's start this trip bottom-up. At the very low level, you have what is usually known as the _Bare Metal_. That is roughly the computer processor and the memory. We may consider the BIOS to be also at this level and some other elements usually grouped under the generic name of chipset.
 
-On top of the _Bare Metal_ we find the _Operating System_. The operating system is in charge of managing the HW. There is a lot to do there and each hardware device has its own peculiarities (that's why we have all those drivers). The operating system gives us standard services to access the disk, the memory, the USB devices... You can indeed do all this at the _Bare Metal_ layer but... then you will end up writing an operating system...
+On top of the _Bare Metal_, we find the _Operating System_. The operating system is in charge of managing the HW. There is a lot to do there, and each hardware device has its own peculiarities (that's why we have all those drivers). The operating system gives us standard services to access the disk, the memory, the USB devices... You can indeed do all this at the _Bare Metal_ layer but... then you will end up writing an operating system...
 
-The next layer we found is the _System Libraries_ layer. These are normal fragments of code that are used for many different programs. We group those pieces of code in a file and we call it a library.  Then we can use that code from our programs. There are literally, thousands of libraries available for any OS out there.
+The next layer we find is the _System Libraries_ layer. These are normal fragments of code that are used for many different programs. We group those pieces of code in a file and we call it a library. Then we can use that code from our programs. There are, literally, thousands of libraries available for any OS out there.
 
-The top level of this stack of layers are the _Programs_ (this also includes Application Level Libraries). These are the things you want to write yourselves when you decide to learn how to program a computer. You write these programs in some programming language. C and ASM are two of those programming languages... There are hundreds of them, and you should learn quite some and choose the right one for the task you want to accomplish. 
+The top level of this stack of layers is the _Programs_ (this also includes Application Level Libraries). These are the things you want to write yourself when you decide to learn how to program a computer. You write these programs in some programming language. C and ASM are two of those programming languages... There are hundreds of them, and you should learn quite a few and choose the right one for the task you want to accomplish. 
 
 # Going Top Down
-OK, fair enough. Now that we are at the top level, let's look down for a while. You have learn a specific language. 
+OK, fair enough. Now that we are at the top level, let's look down for a while. You have learned a specific language.
 
-Let's say you have learn C using one of those on-line tutorials. The original C language has 32 keywords. The syntax is pretty simple and easy to learn. Yes, really, is a pretty simple language. However, knowing the C keywords and syntax does not let you do much. 
+Let's say you have learned C using one of those online tutorials. The original C language has 32 keywords. The syntax is pretty simple and easy to learn. Yes, really, it is a pretty simple language. However, knowing the C keywords and syntax does not let you do much.
 
-You need to learn something more. At least, one thing called the _Standard C library_. Without this, you cannot even print anything on the screen, read any used input or deal with files. And this happens with nearly all programming languages out there. You need a minimal library to be able to interact with your operating system and then, let your operating system deal with the _Bare Metal_.
+You need to learn something more. At least, one thing called the _Standard C library_. Without this, you cannot even print anything on the screen, read any user input, or deal with files. And this happens with nearly all programming languages out there. You need a minimal library to be able to interact with your operating system and then let your operating system deal with the _Bare Metal_.
 
-Therefore, learning the syntax of a language, and the basics of its standard libraries only brings you half way (in the best case) to where you were aiming to be. 
+Therefore, learning the syntax of a language and the basics of its standard libraries only brings you halfway (in the best case) to where you were aiming to be.
 
-Learning C and ASM to become a hacker requires you to learn not just the language keywords, syntax, idioms, (put whatever nowadays buzzword in here)... You also need to learn how to use the system libraries, how does your operating system works and also how does your computer works.
+Learning C and ASM to become a hacker requires you to learn not just the language keywords, syntax, idioms, (put whatever nowadays buzzword in here)... You also need to learn how to use the system libraries, how your operating system works, and also how your computer works.
 
 That is why there is a huge difference between a C programming course that teaches you how to code C and a hacking programming course that teaches you how to do stuff. Usually, after you have learnt the syntax, you have to go into specific courses tutorials: Network Programming, Kernel Programming, 3D graphics programming, GUI programming,... Each one of those has their own peculiarities and requires quite some time to manage them. In a sense we will be covering here what is generally known as _System Programming_. This cover quite some of the topics usually related to hacking.
 
